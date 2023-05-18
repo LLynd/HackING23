@@ -5,6 +5,7 @@ import typing as t
 import numpy as np
 
 from PIL import Image
+from tqdm import tqdm
 from sklearn.model_selection import train_test_split
 
 
@@ -18,27 +19,27 @@ class DataLoader():
     
     
     def load(self, data: str):
+        shape = list(np.array(Image.open(os.path.join(self.IMG_TEST_PATH, img))).shape)
+    
         if data == 'IMG_TEST':
             i = 0
-            for img in os.listdir(self.IMG_TEST_PATH):
-                if i == 0:
-                    shape = list(np.array(Image.open(os.path.join(self.IMG_TEST_PATH, img))).shape)
-                    shape.insert(0, len(os.listdir(self.IMG_TEST_PATH)))
-                    X =  np.zeros(tuple(shape), dtype=np.float32)
-                X[i, :, :] = np.array(Image.open(os.path.join(self.IMG_TEST_PATH, img)).resize(shape[1:], Image.Resampling.LANCZOS))
-                i+=1
+            shape.insert(0, len(os.listdir(self.IMG_TEST_PATH)))
+            X =  np.zeros(tuple(shape), dtype=np.float32)
+            for img in tqdm(os.listdir(self.IMG_TEST_PATH)):
+                X[i, :, :] = np.array(Image.open(os.path.join(self.IMG_TEST_PATH, img)).resize(shape[1:], Image.Resampling.LANCZOS)).T
+                i += 1
             return X
         
         elif data == "IMG_TRAIN":
-            y= []
             i = 0
-            for img in os.listdir(self.IMG_TEST_PATH):
-                if i == 0:
-                    shape = list(np.array(Image.open(os.path.join(self.IMG_TEST_PATH, img))).shape)
-                    shape.insert(0, len(os.listdir(self.IMG_TEST_PATH)))
-                    X =  np.zeros(tuple(shape), dtype=np.float32)
-                X[i, :, :] = np.array(Image.open(os.path.join(self.IMG_TEST_PATH, img)).resize(shape[1:], Image.Resampling.LANCZOS))
-                i+=1
+            shape.insert(0, sum([len(files) for r, d, files in os.walk(self.IMG_TRAIN_PATH)]))
+            X =  np.zeros(tuple(shape), dtype=np.float32)
+            y = []
+            for dir in tqdm(os.listdir(self.IMG_TRAIN_PATH)):
+                for img in tqdm(os.listdir(os.path.join(self.IMG_TRAIN_PATH, dir))):
+                    y.append(dir)
+                    X[i, :, :] = np.array(Image.open(os.path.join(self.IMG_TEST_PATH, img)).resize(shape[1:], Image.Resampling.LANCZOS)).T
+                    i += 1
             return X, np.array(y)
         
         elif data == "TXT_TEST":
@@ -50,5 +51,5 @@ class DataLoader():
             return X, y
     
     
-    def split(X: np.typing.ArrayLike, y: np.typing.ArrayLike, test_size: t.Optional[float] = 0.2, shuffle: t.Optional[bool] = True, stratify: t.Optional[np.typing.ArrayLike] = None):
+    def split(self, X: np.typing.ArrayLike, y: np.typing.ArrayLike, test_size: t.Optional[float] = 0.2, shuffle: t.Optional[bool] = True, stratify: t.Optional[np.typing.ArrayLike] = None):
         return train_test_split(X, y, test_size=test_size, shuffle=shuffle, stratify=stratify, random_state=self.random_state)
