@@ -164,3 +164,6 @@ src/trained_models/*
 src/data/*
 !src/data/.gitkeep
 !src/notebooks/.gitkeep
+src/scripts/*
+!src/scripts/.gitkeep
+src/script.py
