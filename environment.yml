@@ -1,4 +1,4 @@
-name: 3drdnn
+name: hackING
 channels:
   - pytorch
   - conda-forge
@@ -178,4 +178,3 @@ dependencies:
     - typing-extensions==4.5.0
     - werkzeug==2.2.3
     - wrapt==1.15.0
-prefix: C:\Users\kaczm\.conda\envs\3drdnn
