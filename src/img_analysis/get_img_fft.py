@@ -2,8 +2,6 @@ import os
 import skimage.io
 import skimage.transform
 import numpy as np
-from skimage.color import rgb2gray
-from skimage.data import astronaut
 from skimage.filters import window
 from scipy.fft import fft2, fftshift
 from skimage.util import img_as_uint
@@ -11,7 +9,6 @@ from skimage.util import img_as_uint
 PATH = "F:\Studia\INGHackathon\HackING23\src\data\datasets\\train_set_resize"
 GENERAL_PATH = "F:\Studia\INGHackathon\HackING23\src\data\datasets"
 PATTERN = "\*.png"
-SIZE = (800, 600)
 directory_list = os.listdir(PATH)
 
 for i, class_dir in enumerate(directory_list):
