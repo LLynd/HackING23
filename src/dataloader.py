@@ -53,3 +53,7 @@ class DataLoader():
     
     def split(self, X: np.typing.ArrayLike, y: np.typing.ArrayLike, test_size: t.Optional[float] = 0.2, shuffle: t.Optional[bool] = True, stratify: t.Optional[np.typing.ArrayLike] = None):
         return train_test_split(X, y, test_size=test_size, shuffle=shuffle, stratify=stratify, random_state=self.random_state)
+    
+    
+    def preprocess(self, data:str):
+        pass
