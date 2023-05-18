@@ -167,3 +167,4 @@ src/data/*
 src/scripts/*
 !src/scripts/.gitkeep
 src/script.py
+src/__pycache__
