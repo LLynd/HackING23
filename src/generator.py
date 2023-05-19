@@ -20,8 +20,9 @@ class DataGen(keras.utils.Sequence):
         self.index= pd.DataFrame()
 
         f = open(to_ignore, "r")
-        self.to_ignore_list = f.readlines()
-        f.close
+        self.to_ignore_list = f.read()
+        self.to_ignore_list = self.to_ignore_list.split("\n")
+        f.close()
 
 
 
