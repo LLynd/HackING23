@@ -8,6 +8,7 @@ import pandas as pd
 import os
 from PIL import Image
 
+
 class DataGen(keras.utils.Sequence):
     def __init__(self, input_shape=(384,384,1), data_path='./data', to_ignore="to_ignore.txt", mode='train', batch_size=32, shuffle=True, quiet=False, norm='sample'):
         print(f'initialising {mode} generator...')
@@ -24,9 +25,6 @@ class DataGen(keras.utils.Sequence):
         self.to_ignore_list = f.read()
         self.to_ignore_list = self.to_ignore_list.split("\n")
         f.close()
-
-
-
 
         if self.mode=='train':
             self.img_path = os.path.join(data_path, 'datasets', 'train_set')

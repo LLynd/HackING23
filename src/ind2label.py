@@ -23,16 +23,6 @@ def ind2label(outputs, filenames):
     
     return files_labels
 
-
 def save_to_json(dict_name, output):
     with open('output.json', "w") as f:
         json.dump(dict_name, f)
-
-
-
-
-
-
-    
-
-

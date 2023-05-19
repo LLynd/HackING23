@@ -160,12 +160,9 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-src/trained_models/*
-!src/trained_models/.gitkeep
 src/data/*
 !src/data/.gitkeep
 !src/notebooks/.gitkeep
 src/scripts/*
 !src/scripts/.gitkeep
-src/script.py
-src/__pycache__
+src/__pycache__/*
