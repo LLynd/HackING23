@@ -16,6 +16,7 @@ class DataGen(keras.utils.Sequence):
         self.quiet = quiet
         self.shuffle = shuffle
         self.norm = norm
+        self.mode = mode
         self.text_path = os.path.join(data_path, 'hackaton')
         self.index= pd.DataFrame()
 
