@@ -9,16 +9,21 @@ import os
 from PIL import Image
 
 class DataGen(keras.utils.Sequence):
-    def __init__(self, input_shape=(384,384,1), data_path='./data', mode='train', batch_size=32, shuffle=True, quiet=False, norm='sample'):
+    def __init__(self, input_shape=(384,384,1), data_path='./data', to_ignore="to_ignore.txt", mode='train', batch_size=32, shuffle=True, quiet=False, norm='sample'):
         print(f'initialising {mode} generator...')
         self.input_shape = input_shape
         self.batch_size = batch_size
         self.quiet = quiet
         self.shuffle = shuffle
-        self.mode = mode
         self.norm = norm
+        self.mode = mode
         self.text_path = os.path.join(data_path, 'hackaton')
         self.index= pd.DataFrame()
+
+        f = open(to_ignore, "r")
+        self.to_ignore_list = f.read()
+        self.to_ignore_list = self.to_ignore_list.split("\n")
+        f.close()
 
 
 
@@ -72,6 +77,7 @@ class DataGen(keras.utils.Sequence):
                 dir_df = pd.DataFrame()
                 if directory[0] != '.':
                     dirfiles = os.listdir(os.path.join(self.img_path, directory))
+                    dirfiles = np.setdiff1d(dirfiles, self.to_ignore_list)
                     dir_df['fname'] = dirfiles
                     dir_df['label'] = [directory]*len(dir_df)
                     df = pd.concat([df, dir_df], ignore_index=True)
