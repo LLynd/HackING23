@@ -12,8 +12,6 @@ We found however, that the OCR input was highly unreliable. Here we can see the 
 
 ![textPCA.png](images/textPCA.png)
 
-![tsneTrain.png](images/tsneTrain.png)
-
 Thus with time constrains, instead of back-engineering the text, we decided to focus solely on the CV aspect. 
 
 The data was not sufficient to train a network from scratch. We've opted for looking at some easily-accessible open-source models. Thus we looked for ImageNet pretrained model, to extract feature-embeddings from.
@@ -22,7 +20,14 @@ We opted for Vision Transformer (ViT) with hope, that the positional encoding do
 
 We've loaded all transformer-encoded layers from ImageNet-pretrained ViT-B16 implemented at https://github.com/faustomorales/vit-keras
 
+We then embedded both the train and test set and classified them using a two-layer neural network. 
+
 Since our data is black-and-white, we duplicated the values onto 3 channels to match ImageNet input.
+
+Here we can see the TSNE analysis of image embeddings from vision transformers. As you can see, most classes are inseparable.
+![tsneTrain.png](images/tsneTrain.png)
+
+We opted for manual cleaning of the training dataset. After this, we finally achieved 69% mean cross validation accuracy, with 99% accuracy in regards to some classes (usually the ones with most normalized, quality data).
 
 ### Authors
 Team EMjoyers: 
