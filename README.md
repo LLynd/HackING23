@@ -24,7 +24,7 @@ We've loaded all transformer-encoded layers from ImageNet-pretrained ViT-B16 imp
 
 Since our data is black-and-white, we duplicated the values onto 3 channels to match ImageNet input.
 
-###Authors
+### Authors
 Team EMjoyers: 
     Julia Jakubowska, Rafał Kaczmarek, Agata Kulesza, Łukasz Niedźwiedzki, Weronika Skibicka
 
