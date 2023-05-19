@@ -56,7 +56,10 @@ class DataGen(keras.utils.Sequence):
 
         self.index = self._make_index()
 
-        self.classes = np.asarray(self.index['label'].unique())
+        if self.mode=='train':
+            self.classes = np.asarray(self.index['label'].unique())
+        else:
+            self.classes = np.zeros(0)
 
         self.available_ids = list(self.index.index)
         self.on_epoch_end()
@@ -64,13 +67,17 @@ class DataGen(keras.utils.Sequence):
 
     def _make_index(self):
         df = pd.DataFrame()
-        for directory in os.listdir(self.img_path):
-            dir_df = pd.DataFrame()
-            if directory[0] != '.':
-                dirfiles = os.listdir(os.path.join(self.img_path, directory))
-                dir_df['fname'] = dirfiles
-                dir_df['label'] = [directory]*len(dir_df)
-                df = pd.concat([df, dir_df], ignore_index=True)
+        if self.mode == 'train':
+            for directory in os.listdir(self.img_path):
+                dir_df = pd.DataFrame()
+                if directory[0] != '.':
+                    dirfiles = os.listdir(os.path.join(self.img_path, directory))
+                    dir_df['fname'] = dirfiles
+                    dir_df['label'] = [directory]*len(dir_df)
+                    df = pd.concat([df, dir_df], ignore_index=True)
+        else:
+            files = os.listdir(self.img_path)
+            df['fname'] = files
         return df
 
     def __len__(self):
@@ -78,8 +85,12 @@ class DataGen(keras.utils.Sequence):
 
     def __getitem__(self, id):
         batch_ids = self.indices[id*self.batch_size: (id+1)*self.batch_size]
-        X, y = self._data_generation(batch_ids)
-        return X, y
+        if self.mode =='train':
+            X, y = self._data_generation(batch_ids)
+            return X, y
+        else:
+            X = self._data_generation(batch_ids)
+            return X
 
     def on_epoch_end(self):
         self.indices = np.arange(len(self.available_ids))
